@@ -25,32 +25,15 @@ module.exports = function fileStream(res, url, File) {
         writer.on("finish", async () => {
           const stream = fs.createReadStream(isfile);
           const data = fs.readFileSync(isfile);
-          if (data.length > 0) {
-            res.setHeader("content-type", "audio/mpeg");
-            res.setHeader("Accept-Ranges", "bytes");
-            res.setHeader("content-length", data.length);
-            res.setHeader(
-              "Content-Disposition",
-              `attachment; filename="${File}.mp3"`
-            );
-            stream.pipe(res);
-          } else {
-            fs.unlinkSync(isfile);
-            const stream = await song.downloadHLS();
-            const writer = stream.pipe(fs.createWriteStream(isfile));
-            writer.on("finish", () => {
-              const stream = fs.createReadStream(isfile);
-              const data = fs.readFileSync(isfile);
-              res.setHeader("content-type", "audio/mpeg");
-              res.setHeader("Accept-Ranges", "bytes");
-              res.setHeader("content-length", data.length);
-              res.setHeader(
-                "Content-Disposition",
-                `attachment; filename="${File}.mp3"`
-              );
-              stream.pipe(res);
-            });
-          }
+
+          res.setHeader("content-type", "audio/mpeg");
+          res.setHeader("Accept-Ranges", "bytes");
+          res.setHeader("content-length", data.length);
+          res.setHeader(
+            "Content-Disposition",
+            `attachment; filename="${File}.mp3"`
+          );
+          stream.pipe(res);
         });
       }
     })
