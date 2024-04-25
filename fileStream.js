@@ -1,6 +1,7 @@
 const SoundCloud = require("soundcloud-scraper");
 const client = new SoundCloud.Client();
 const fs = require("fs");
+const scdl = require("soundcloud-downloader").default;
 
 module.exports = function fileStream(res, url, File) {
   client
@@ -19,7 +20,7 @@ module.exports = function fileStream(res, url, File) {
         );
         return stream.pipe(res);
       } else {
-        const stream = await song.downloadProgressive();
+        const stream = await scdl.download(url);
         const writer = stream.pipe(fs.createWriteStream(isfile));
         writer.on("finish", async () => {
           const stream = fs.createReadStream(isfile);
