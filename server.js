@@ -5,7 +5,6 @@ const stream = require("./stream");
 const fileStream = require("./fileStream");
 const cluster = require("node:cluster");
 const os = require("os");
-const path = require("node:path");
 const totalCpu = os.cpus().length;
 
 if (cluster.isPrimary) {
@@ -19,7 +18,7 @@ if (cluster.isPrimary) {
 
   app.get("/", (req, res) => {
     const url = req.query.url;
-    if (!url) return res.sendFile(path.resolve("./index.html"));
+    if (!url) return res.status(404).json("url not provided");
     const download = req.query.file;
     try {
       if (download) {
