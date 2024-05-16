@@ -22,7 +22,7 @@ if (cluster.isPrimary) {
       if (download) {
         fileStream(res, url, download);
       } else {
-        stream(res, url);
+        stream(res, url, req);
       }
     } catch (error) {
       res.status(500).json(error.message);
