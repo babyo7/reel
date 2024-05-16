@@ -1,9 +1,11 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const cors = require("cors");
 const stream = require("./stream");
 const fileStream = require("./fileStream");
 const cluster = require("node:cluster");
 const os = require("os");
+const path = require("node:path");
 const totalCpu = os.cpus().length;
 
 if (cluster.isPrimary) {
@@ -13,10 +15,11 @@ if (cluster.isPrimary) {
 } else {
   const PORT = process.env.PORT || 4000;
   app.use(cors());
+  app.use(express.static("/"));
 
   app.get("/", (req, res) => {
     const url = req.query.url;
-    if (!url) return res.status(404).json("url not provided");
+    if (!url) return res.sendFile(path.resolve("./index.html"));
     const download = req.query.file;
     try {
       if (download) {
