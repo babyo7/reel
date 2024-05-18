@@ -13,10 +13,7 @@ module.exports = function stream(res, url, req) {
         res.setHeader("content-type", "audio/mpeg");
         res.setHeader("Accept-Ranges", "bytes");
         res.setHeader("content-length", data.length);
-        res.setHeader(
-          "Content-Disposition",
-          `attachment; filename="${File}.mp3"`
-        );
+     
         return stream.pipe(res);
        
       } else {
@@ -28,10 +25,7 @@ module.exports = function stream(res, url, req) {
         res.setHeader("content-type", "audio/mpeg");
         res.setHeader("Accept-Ranges", "bytes");
         res.setHeader("content-length", data.length);
-        res.setHeader(
-          "Content-Disposition",
-          `attachment; filename="${File}.mp3"`
-        );
+     
         return stream.pipe(res);
        
         });
