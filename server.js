@@ -3,15 +3,7 @@ const app = express();
 const cors = require("cors");
 const stream = require("./stream");
 const fileStream = require("./fileStream");
-const cluster = require("node:cluster");
-const os = require("os");
-const totalCpu = os.cpus().length;
 
-if (cluster.isPrimary) {
-  for (let i = 0; i < totalCpu; i++) {
-    cluster.fork();
-  }
-} else {
   const PORT = process.env.PORT || 4000;
   app.use(cors());
   app.use(express.static("/"));
@@ -34,4 +26,4 @@ if (cluster.isPrimary) {
   app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
   });
-}
+
